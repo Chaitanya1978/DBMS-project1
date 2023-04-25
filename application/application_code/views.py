@@ -154,3 +154,46 @@ def delete_task(request, task_id):
 def show_tasks(request):
     tasks = MemberTasks.objects.filter(member=request.user)
     return render(request,'show_tasks.html',{'tasks':tasks})
+
+def add_category(request):
+    form = CategoryForm()
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            description = form.cleaned_data["description"]
+            Category.objects.create(member=request.user,name=name,description=description)
+            messages.success(request, 'Category has been added successfully!')
+            return redirect('show_categories')
+    context = {
+        'form': form
+    }
+    return render(request, 'add_category.html', context)
+
+
+def edit_category(request, category_id):
+    category = Category.objects.get(category_id=category_id)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            description = form.cleaned_data["description"]
+            category.name = name
+            category.description = description
+            category.save()
+            messages.success(request, 'Category has been updated successfully!')
+            return redirect('show_categories')
+    else:
+        form = CategoryForm()
+        form.fields["name"].initial = category.name
+        form.fields["description"].initial = category.description
+    return render(request, 'update_category.html', {'form':form})
+
+def delete_category(request, category_id):
+    task = get_object_or_404(Category, category_id=category_id)
+    task.delete()
+    return redirect('show_categories')
+
+def show_categories(request):
+    categories = Category.objects.filter(member=request.user)
+    return render(request,'show_categories.html',{'categories':categories})
