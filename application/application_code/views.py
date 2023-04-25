@@ -144,3 +144,13 @@ def edit_task(request, task_id):
         due_date = datetime.strptime(str(task.due_date), '%Y-%m-%d').strftime('%m/%d/%Y')
         form.fields["due_date"].initial = due_date
     return render(request, 'edit_task.html', {'form': form, 'task': task,'task_id':task_id})
+
+def delete_task(request, task_id):
+    task = get_object_or_404(MemberTasks, pk=task_id)
+    task.delete()
+    messages.add_message(request,messages.SUCCESS,"Your task " + str(task_id) + " deleted successfully.")
+    return redirect('show_tasks')
+
+def show_tasks(request):
+    tasks = MemberTasks.objects.filter(member=request.user)
+    return render(request,'show_tasks.html',{'tasks':tasks})
