@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+          <br>
+          <center>
+            <h3>Member Task Details</h3>
+          </center>
+            <br>
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Member Name</th>
+                    <th>Task Name</th>
+                    <th>Due Date</th>
+                    <th>Description</th>
+                    <th>Is Task Completed</th>
+                    <th>#</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for t in tasks %}
+                <tr>
+                    <td>{{t.member.first_name}}</td>
+                    <td>{{t.name}}</td>
+                    <td>{{t.due_date}}</td>
+                    <td>{{t.description}}</td>
+                    <td>{{t.is_task_completed}}</td>
+                    <td>
+                        <a href="/delete/task/{{t.pk}}/">
+                            Delete Details
+                        </a>
+                        <br><br>
+                        <a href="/edit/task/{{t.pk}}/">
+                            Update Details
+                        </a>
+                    </td>
+                </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+            <center>
+                <br>
+                    <a href="/member/dashboard/">
+                        Member Dashboard
+                    </a>
+                </br>
+            </center>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
