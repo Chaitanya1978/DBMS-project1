@@ -37,3 +37,61 @@ def create_new_member_view(request):
     else:
         member_form = MemberCreationForm()
     return render(request, 'create_member.html', {'member_form': member_form})
+
+def member_profile(request):
+    member = request.user
+    if not member.is_active:
+        return redirect('create_member')
+    context = {
+        'member': member,
+    }
+    return render(request, 'member_profile.html', context)
+
+
+def member_dashboard(request):
+    member = request.user
+    if not member.is_active:
+        return redirect('create_member')
+    context = {
+        'member': member,
+    }
+    return render(request, 'member_dashboard.html', context)
+
+
+def update_member_profile(request):
+    member = request.user
+    if not member.is_active:
+        return redirect('create_member')
+    if request.method == 'POST':
+        form = MemberChangeForm(request.POST)
+        if form.is_valid():
+            member_first_name = form.cleaned_data["first_name"]
+            member_last_name = form.cleaned_data["last_name"]
+            member_email = form.cleaned_data["email"]
+            member_mobile_number = form.cleaned_data["mobile_number"]
+            member.first_name = member_first_name
+            member.last_name = member_last_name
+            member.email = member_email
+            member.mobile_number = member_mobile_number
+            member.save()
+            messages.add_message(request,messages.SUCCESS,"Your profile details updated successfully.")
+            return redirect('profile')
+    else:
+        form = MemberChangeForm()
+        form.fields["first_name"].initial = member.first_name
+        form.fields["last_name"].initial = member.last_name
+        form.fields["email"].initial = member.email
+        form.fields["mobile_number"].initial = member.mobile_number
+    context = {
+        'form': form,
+    }
+    return render(request, 'update_profile.html', context)
+
+
+def delete_member_profile(request):
+    member = request.user
+    if not member.is_active:
+        return redirect('create_member')
+    member.is_active = False
+    member.save()
+    return redirect('create_member')
