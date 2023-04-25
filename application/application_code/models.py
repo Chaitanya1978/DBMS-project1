@@ -36,3 +36,13 @@ class Category(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
+        return str(self.name)
+
+class TaskCategory(models.Model):
+    task_category_id = models.AutoField(primary_key=True)
+    member_task = models.ForeignKey(MemberTasks, verbose_name="member_task", on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, verbose_name="category", on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.task_category_id)
