@@ -24,3 +24,14 @@ class MemberTasksForm(forms.Form):
     due_date = forms.DateField(required=True,widget=forms.TextInput(attrs={'placeholder': 'MM/DD/YYYY'}))
     is_task_completed = forms.BooleanField(required=False)
     description = forms.CharField(max_length=200, required=False,widget=forms.TextInput(attrs={'placeholder': 'Task Description'}))
+
+class CategoryForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    description = forms.CharField(max_length=200, required=False)
+
+
+from .models import MemberTasks, Category
+
+class TaskCategoryForm(forms.Form):
+    member_task = forms.ModelChoiceField(queryset=MemberTasks.objects.only("name").all(), label='Task')
+    category = forms.ModelChoiceField(queryset=Category.objects.only("name").all(), label='Category')
