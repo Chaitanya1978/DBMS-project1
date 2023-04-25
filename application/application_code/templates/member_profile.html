@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+          <br>
+          <center>
+            <h3>Member Profile</h3>
+          </center>
+            <br>
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Member Id</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email Address</th>
+                    <th>Mobile Number</th>
+                    <th>#</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{member.pk}}</td>
+                    <td>{{member.first_name}}</td>
+                    <td>{{member.last_name}}</td>
+                    <td>{{member.email}}</td>
+                    <td>{{member.mobile_number}}</td>
+                    <td>
+                        <a href="/delete/member/profile/">
+                            Delete Details
+                        </a>
+                        <br><br>
+                        <a href="/update/member/profile/">
+                            Update Details
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <center>
+                <br>
+                    <a href="/member/dashboard/">
+                        Member Dashboard
+                    </a>
+                </br>
+            </center>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+          <br>
+          <center>
+            <h3>Member Dashboard</h3>
+              <br><br>
+          </center>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <a href="/add/task/">Add Task</a>
+                            </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <a href="/tasks/">Show Tasks</a>
+                            </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="col-sm-12">
+          <br>
+          <center>
+
+          </center>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card text-center">
+                        <div class="card-body">
+<a href="/add/category/">Add Category</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card text-center">
+                        <div class="card-body">
+<a href="/categories/">Show Categories</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <br>
+                    <div class="card text-center">
+                        <div class="card-body">
+                    <a href="/add/task/category">Add Task Category</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <br>
+                    <div class="card">
+                        <div class="card-body text-center">
+                    <a href="/show/task/categories/">Show Task Categories</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <br>
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <a href="/profile/">View Profile</a>
+                            </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <br>
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <a href="/update/member/profile/">Update Profile</a>
+                            </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <br>
+                    <div class="card text-center">
+                        <div class="card-body" style="color:red;">
+                            <a href="/logout/" style="color:red;">Logout</a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
