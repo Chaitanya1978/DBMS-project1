@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+          <br>
+          <center>
+            <h3>Member Category Details</h3>
+          </center>
+            <br>
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Member Name</th>
+                    <th>Category Name</th>
+                    <th>Description</th>
+                    <th>Created</th>
+                    <th>#</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for t in categories %}
+                <tr>
+                    <td>{{t.member.first_name}}</td>
+                    <td>{{t.name}}</td>
+                    <td>{{t.description}}</td>
+                    <td>{{t.created}}</td>
+                    <td>
+                        <a href="/delete/category/{{t.pk}}/">
+                            Delete Details
+                        </a>
+                        <br><br>
+                        <a href="/edit/category/{{t.pk}}/">
+                            Update Details
+                        </a>
+                    </td>
+                </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+<center>
+                <br>
+                    <a href="/member/dashboard/">
+                        Member Dashboard
+                    </a>
+                </br>
+            </center>
+        </div>
+    </div>
+</div>
+{% endblock %}
