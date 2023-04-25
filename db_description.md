@@ -55,3 +55,66 @@ CREATE TABLE "taskcategory" (
 "category_id" integer NOT NULL REFERENCES "category" ("category_id") DEFERRABLE INITIALLY DEFERRED, 
 "member_task_id" integer NOT NULL REFERENCES "membertasks" ("member_task_id") DEFERRABLE INITIALLY DEFERRED
 );
+
+
+### attributes
+
+# member table
+
+member_id (integer, primary key, autoincrement)
+mobile_number (varchar(12), not null)
+email (varchar(254), not null)
+first_name (varchar(50), not null)
+last_name (varchar(50), not null)
+password (varchar(18), not null)
+
+
+# Member Tasks table:
+
+member_task_id (integer, primary key, autoincrement)
+name (varchar(100), not null)
+due_date (date, not null)
+is_task_completed (bool, not null)
+description (varchar(200), null)
+member_id (integer, not null, foreign key referencing member(member_id))
+
+# Category table:
+
+category_id (integer, primary key, autoincrement)
+name (varchar(100), not null)
+description (varchar(200), null)
+created (datetime, not null)
+member_id (integer, not null, foreign key referencing member(member_id))
+
+# Task Category table
+
+task_category_id (integer, primary key, autoincrement)
+created (datetime, not null)
+category_id (integer, not null, foreign key referencing category(category_id))
+member_task_id (integer, not null, foreign key referencing member_tasks(member_task_id))
+
+# primary keys
+
+Member table: member_id
+
+Member Tasks table:: member_task_id
+
+Category table: category_id
+
+Task Category table: task_category_id
+
+#  foreign keys
+
+member Tasks table: member_id (foreign key referencing member(member_id))
+
+category table: member_id (foreign key referencing member(member_id))
+
+Task Category table: 
+
+category_id (foreign key referencing category(category_id))
+member_task_id (foreign key referencing member_tasks(member_task_id))
+
+## foreign key constraints
+
+above we added the foreign key information, and we added the deferrable initially deferred clause allows 
+for the constraints to be deferred until the transaction is committed.
