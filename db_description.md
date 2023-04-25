@@ -118,3 +118,47 @@ member_task_id (foreign key referencing member_tasks(member_task_id))
 
 above we added the foreign key information, and we added the deferrable initially deferred clause allows 
 for the constraints to be deferred until the transaction is committed.
+
+### FDs
+
+# Member table
+member_id -> mobile_number, email, first_name, last_name, password
+
+# Member Tasks table:
+member_task_id -> name, due_date, is_task_completed, description, member_id
+
+# Category table:
+category_id -> name, description, created, member_id
+
+
+# Task Category table:
+task_category_id -> created, category_id, member_task_id
+
+
+# whether in 3NF
+
+Yes, all above tables are in 3NF form.
+
+
+
+### one or two rows of sample data for each table.
+
+member_id	mobile_number	email	              first_name	last_name	password
+1	         1234567890	   john.doe@example.com	    John	       Doe	      abc123
+2	          0987654321	jane.doe@example.com	Jane	        Doe	       123xyz
+
+
+
+member_task_id	name	     due_date	  is_task_completed	     description	               member_id
+   1	         Grocery shop	 2023-04-24	         0	           Buy groceries for next week	      1
+   2	         Pay rent	     2022-05-05	         0	            Pay rent for apartment	          2
+
+
+category_id	     name	           description	                  created	         member_id
+1	          Personal	       Personal tasks and to-dos	    2023-04-23 10:00:00     	1
+2	            Work	      Tasks related to work or career	2023-04-23 10:30:00      	2
+
+
+task_category_id	created	            category_id	    member_task_id
+  1	             2022-04-30 11:00:00	    1	            1
+  2	             2022-04-30 11:30:00	    2	            2
