@@ -95,3 +95,52 @@ def delete_member_profile(request):
     member.is_active = False
     member.save()
     return redirect('create_member')
+
+from .models import MemberTasks
+from .django_forms import MemberTasksForm
+
+
+def add_task(request):
+    if request.method == 'POST':
+        form = MemberTasksForm(request.POST)
+        if form.is_valid():
+            task_name = form.cleaned_data["name"]
+            due_date = form.cleaned_data["due_date"]
+            is_task_completed = form.cleaned_data["is_task_completed"]
+            description = form.cleaned_data["description"]
+            MemberTasks.objects.create(member=request.user, name=task_name, due_date=due_date,
+                                       is_task_completed=is_task_completed, description=description)
+            messages.add_message(request,messages.SUCCESS,"You are successfully added the task.")
+            return redirect('show_tasks')
+    else:
+        form = MemberTasksForm()
+    return render(request, 'add_task.html', {'form': form})
+
+
+def edit_task(request, task_id):
+    task = get_object_or_404(MemberTasks, pk=task_id, member_id=request.user.pk)
+    if request.method == 'POST':
+        form = MemberTasksForm(request.POST)
+        if form.is_valid():
+            task_name = form.cleaned_data["name"]
+            due_date = form.cleaned_data["due_date"]
+            is_task_completed = form.cleaned_data["is_task_completed"]
+            description = form.cleaned_data["description"]
+            task.name = task_name
+            task.due_date = due_date
+            task.is_task_completed = is_task_completed
+            task.description = description
+            task.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 "Your task " + str(task_id) + " details updated successfully.")
+            return redirect('show_tasks')
+    else:
+        form = MemberTasksForm()
+        form.fields["name"].initial = task.name
+        form.fields["description"].initial = task.description
+        if task.is_task_completed:
+            form.fields["is_task_completed"].initial = task.is_task_completed
+        from datetime import datetime
+        due_date = datetime.strptime(str(task.due_date), '%Y-%m-%d').strftime('%m/%d/%Y')
+        form.fields["due_date"].initial = due_date
+    return render(request, 'edit_task.html', {'form': form, 'task': task,'task_id':task_id})
