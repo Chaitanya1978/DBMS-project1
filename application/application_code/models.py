@@ -15,3 +15,24 @@ class Member(AbstractUser):
 
     def __str__(self):
         return str(self.first_name)
+
+class MemberTasks(models.Model):
+    member_task_id = models.AutoField(primary_key=True)
+    member = models.ForeignKey(Member, default=1, verbose_name="member", on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, null=False, blank=False)
+    due_date = models.DateField(null=False, blank=False)
+    is_task_completed = models.BooleanField(default=False)
+    description = models.CharField(max_length=200, null=True, blank=True)
+
+    def __str__(self):
+        return str(self.name)
+
+
+class Category(models.Model):
+    category_id = models.AutoField(primary_key=True)
+    member = models.ForeignKey(Member, default=1, verbose_name="member", on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, null=False, blank=False)
+    description = models.CharField(max_length=200, null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
