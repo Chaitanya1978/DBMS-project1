@@ -197,3 +197,47 @@ def delete_category(request, category_id):
 def show_categories(request):
     categories = Category.objects.filter(member=request.user)
     return render(request,'show_categories.html',{'categories':categories})
+
+from .django_forms import TaskCategoryForm
+from .models import TaskCategory
+
+def add_task_category(request):
+    member = request.user
+    if request.method == 'POST':
+        form = TaskCategoryForm(request.POST)
+        if form.is_valid():
+            member_task = form.cleaned_data['member_task']
+            category = form.cleaned_data['category']
+            task_category = TaskCategory(member_task=member_task, category=category)
+            task_category.save()
+            return redirect('show_task_categories')
+    else:
+        form = TaskCategoryForm()
+    return render(request, 'add_task_category.html', {'form': form})
+
+
+def edit_task_category(request, task_category_id):
+    task_category = get_object_or_404(TaskCategory, pk=task_category_id)
+    if request.method == 'POST':
+        form = TaskCategoryForm(request.POST)
+        if form.is_valid():
+            member_task = form.cleaned_data['member_task']
+            category = form.cleaned_data['category']
+            task_category.member_task = member_task
+            task_category.category = category
+            task_category.save()
+            return redirect('show_task_categories')
+    else:
+        form = TaskCategoryForm()
+        form.fields["member_task"].initial = task_category.member_task
+        form.fields["category"].initial = task_category.category
+    return render(request, 'edit_task_category.html', {'form': form})
+
+def delete_task_category(request, task_category_id):
+    task = get_object_or_404(TaskCategory, task_category_id=task_category_id)
+    task.delete()
+    return redirect('show_task_categories')
+
+def show_task_categories(request):
+    tasks = TaskCategory.objects.all()
+    return render(request,'show_task_categories.html',{'tasks':tasks})
